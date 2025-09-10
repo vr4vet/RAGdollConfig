@@ -64,34 +64,6 @@ export default function Home() {
           </Link>
         ))}
       </div>
-
-      {/* Quick Actions */}
-      <div className="bg-accent/20 rounded-lg p-8 text-center space-y-4">
-        <h2 className="text-2xl font-semibold">Quick Actions</h2>
-        <p className="text-muted-foreground">
-          Jump right into creating and configuring your AI resources
-        </p>
-        <div className="flex flex-wrap justify-center gap-3">
-          <Button asChild>
-            <Link href="/agents">
-              <Bot className="mr-2 h-4 w-4" />
-              Create Agent
-            </Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href="/corpuses">
-              <Database className="mr-2 h-4 w-4" />
-              Add Corpus
-            </Link>
-          </Button>
-          <Button variant="outline" asChild>
-            <Link href="/api-keys">
-              <Key className="mr-2 h-4 w-4" />
-              Generate API Key
-            </Link>
-          </Button>
-        </div>
-      </div>
     </div>
   );
 }
