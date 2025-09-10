@@ -2,9 +2,73 @@ import { Key, Plus, Eye, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+interface ApiKey {
+  id: number;
+  name: string;
+  key: string;
+  lastUsed: string;
+  created: string;
+  status: "active" | "inactive";
+  permissions: string[];
+}
+
+interface ApiKeyCardProps {
+  apiKey: ApiKey;
+}
+
+function ApiKeyCard({ apiKey }: ApiKeyCardProps) {
+  return (
+    <div className="rounded-lg border p-6 space-y-4 hover:bg-accent/50 transition-colors">
+      <div className="flex items-start justify-between">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <Key className="h-5 w-5 text-muted-foreground" />
+            <h3 className="text-lg font-semibold">{apiKey.name}</h3>
+            <Badge
+              variant={apiKey.status === "active" ? "default" : "secondary"}
+            >
+              {apiKey.status}
+            </Badge>
+          </div>
+          <div className="flex items-center gap-2 font-mono text-sm">
+            <span className="text-muted-foreground">{apiKey.key}</span>
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+              <Copy className="h-3 w-3" />
+            </Button>
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+              <Eye className="h-3 w-3" />
+            </Button>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm">
+            Edit
+          </Button>
+          <Button variant="outline" size="sm" className="text-destructive">
+            Revoke
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-6 text-sm text-muted-foreground">
+        <div>Created: {apiKey.created}</div>
+        <div>Last used: {apiKey.lastUsed}</div>
+        <div className="flex gap-1">
+          Permissions:
+          {apiKey.permissions.map((permission) => (
+            <Badge key={permission} variant="outline" className="text-xs">
+              {permission}
+            </Badge>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ApiKeysPage() {
   // Mock data for demonstration
-  const apiKeys = [
+  const apiKeys: ApiKey[] = [
     {
       id: 1,
       name: "Production API Key",
@@ -51,60 +115,7 @@ export default function ApiKeysPage() {
 
       <div className="grid gap-4">
         {apiKeys.map((apiKey) => (
-          <div
-            key={apiKey.id}
-            className="rounded-lg border p-6 space-y-4 hover:bg-accent/50 transition-colors"
-          >
-            <div className="flex items-start justify-between">
-              <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <Key className="h-5 w-5 text-muted-foreground" />
-                  <h3 className="text-lg font-semibold">{apiKey.name}</h3>
-                  <Badge
-                    variant={
-                      apiKey.status === "active" ? "default" : "secondary"
-                    }
-                  >
-                    {apiKey.status}
-                  </Badge>
-                </div>
-                <div className="flex items-center gap-2 font-mono text-sm">
-                  <span className="text-muted-foreground">{apiKey.key}</span>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                    <Copy className="h-3 w-3" />
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                    <Eye className="h-3 w-3" />
-                  </Button>
-                </div>
-              </div>
-              <div className="flex gap-2">
-                <Button variant="outline" size="sm">
-                  Edit
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="text-destructive"
-                >
-                  Revoke
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-6 text-sm text-muted-foreground">
-              <div>Created: {apiKey.created}</div>
-              <div>Last used: {apiKey.lastUsed}</div>
-              <div className="flex gap-1">
-                Permissions:
-                {apiKey.permissions.map((permission) => (
-                  <Badge key={permission} variant="outline" className="text-xs">
-                    {permission}
-                  </Badge>
-                ))}
-              </div>
-            </div>
-          </div>
+          <ApiKeyCard key={apiKey.id} apiKey={apiKey} />
         ))}
       </div>
     </div>
